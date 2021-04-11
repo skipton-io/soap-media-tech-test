@@ -9,13 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddScoreController extends AbstractController
 {
     /**
-     * @Route("/add/score", name="add_score")
+     * @Route("/scores/add-score", name="add_score")
      */
     public function index(): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/AddScoreController.php',
-        ]);
+        return $this->render('add-score/index.html.twig');
     }
 }
