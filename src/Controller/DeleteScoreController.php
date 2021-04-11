@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DeleteScoreController extends AbstractController
 {
     /**
-     * @Route("/delete/score", name="delete_score")
+     * @Route("/admin/delete/score", name="delete_score")
      */
     public function index(): Response
     {
