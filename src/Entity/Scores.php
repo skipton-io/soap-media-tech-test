@@ -18,11 +18,6 @@ class Scores
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $user_name;
-
-    /**
      * @ORM\ManyToOne(targetEntity=ScoreDifficulties::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -33,21 +28,15 @@ class Scores
      */
     private $score;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="scores")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUserName(): ?string
-    {
-        return $this->user_name;
-    }
-
-    public function setUserName(string $user_name): self
-    {
-        $this->user_name = $user_name;
-
-        return $this;
     }
 
     public function getDifficulty(): ?ScoreDifficulties
@@ -70,6 +59,18 @@ class Scores
     public function setScore(int $score): self
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
