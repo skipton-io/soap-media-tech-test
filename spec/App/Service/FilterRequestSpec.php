@@ -23,5 +23,6 @@ class FilterRequestSpec extends ObjectBehavior
     {
         $this::inArray('test', ['test'])->shouldBe('test');
         $this::inArray('difficulty', ['user', 'score', 'difficulty'])->shouldBe('difficulty');
+        $this::inArray('difficu1ty', ['user', 'score', 'difficulty'])->shouldBe(null);
     }
 }
