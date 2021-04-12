@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table table-striped">
+        {% for row in scores %}
+        <tr>
+            <td>{{ row.user.username }}</td>
+            <td>{{ row.score }}</td>
+            <td>{{ row.difficulty.value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

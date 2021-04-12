@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Scores[]    findAll()
  * @method Scores[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ScoresRepository extends ServiceEntityRepository
+class ScoresRepository extends ServiceEntityRepository implements ScoresRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
