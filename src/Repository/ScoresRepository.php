@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Scores;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,28 @@ class ScoresRepository extends ServiceEntityRepository implements ScoresReposito
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Scores::class);
+    }
+
+    public function findByFilter(?int $user, ?int $score, ?string $difficulty)
+    {
+        $qb = $this->createQueryBuilder('s');
+        if (!is_null($user)) {
+            $qb->andWhere('s.user = :user')
+                ->setParameter('user', $user, Types::INTEGER);
+        }
+
+        if (!is_null($score)) {
+            $qb->andWhere('s.score = :score')
+                ->setParameter('score', $score, Types::INTEGER);
+        }
+
+        if (!is_null($difficulty)) {
+            $qb->andWhere('s.difficulty = :difficulty')
+                ->setParameter('difficulty', $difficulty, Types::INTEGER);
+        }
+
+        return $qb->getQuery()
+            ->getResult();
     }
 
     // /**
