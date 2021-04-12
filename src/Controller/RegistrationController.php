@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\UserInterface;
 use App\Form\RegistrationFormType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,13 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserInterface $user): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, ManagerRegistry $managerRegistry): Response
     {
+        $entityManager = $managerRegistry->getManager();
+        $metadata = $entityManager->getClassMetadata(UserInterface::class);
+        $realClassName = $metadata->getName();
+        $user = new $realClassName;
+
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
