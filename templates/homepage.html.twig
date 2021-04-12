@@ -1,44 +1,50 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="jumbotron">
+        <div class="container-md">
+            Filtering:
+            <form method="get">
+                <label>
+                    User:
+                    <select name="username">
+                        <option value="">-- Please Select --</option>
+                        {% for user_id, username in scores|app_filter('username') %}
+                            <option value="{{ user_id }}"{% if filter.username is same as(user_id) %} selected="selected"{% endif %}>{{ username }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                &nbsp;&nbsp;- AND -&nbsp;&nbsp;
+                <label>
+                    Score:
+                    <select name="score">
+                        <option value="">-- Please Select --</option>
+                        {% for score in scores|app_filter('score') %}
+                            <option value="{{ score }}"{% if filter.score is same as(score) %} selected="selected"{% endif %}>{{ score }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                &nbsp;&nbsp;- AND -&nbsp;&nbsp;
+                <label>
+                    Difficulty:
+                    <select name="difficulty">
+                        <option value="">-- Please Select --</option>
+                        {% for difficulty_id, difficulty in scores|app_filter('difficulty') %}
+                            <option value="{{ difficulty_id }}"{% if filter.difficulty is same as(difficulty_id) %} selected="selected"{% endif %}>{{ difficulty }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <input type="submit" class="btn btn-primary" value="Refine"/>
+                <button id="reset-btn" type="reset" class="btn btn-info">Reset</button>
+            </form>
+        </div>
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th colspan="3">
-                <form method="get">
-                    <label>
-                        User:
-                        <select name="filter_username">
-                            <option value="">-- Please Select --</option>
-                            {% for user_id, username in scores|app_filter('username') %}
-                                <option value="{{ user_id }}"{% if filter.username is same as(user_id) %} selected="selected"{% endif %}>{{ username }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    &nbsp;&nbsp;- AND -&nbsp;&nbsp;
-                    <label>
-                        Score:
-                        <select name="filter_score">
-                            <option value="">-- Please Select --</option>
-                            {% for score in scores|app_filter('score') %}
-                                <option value="{{ score }}"{% if filter.score is same as(score) %} selected="selected"{% endif %}>{{ score }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    &nbsp;&nbsp;- AND -&nbsp;&nbsp;
-                    <label>
-                        Difficulty:
-                        <select name="filter_difficulty">
-                            <option value="">-- Please Select --</option>
-                            {% for difficulty_id, difficulty in scores|app_filter('difficulty') %}
-                                <option value="{{ difficulty_id }}"{% if filter.difficulty is same as(difficulty_id) %} selected="selected"{% endif %}>{{ difficulty }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    <input type="submit" class="btn btn-primary" value="Refine"/>
-                    <button id="reset-btn" type="reset" class="btn btn-info">Reset</button>
-                </form>
-            </th>
+            <th>Username <small><a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'username', 'asc') }}">Order A-Z</a> | <a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'username', 'desc') }}">Order Z-A</a></small></th>
+            <th>Score <small><a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'score', 'asc') }}">Order A-Z</a> | <a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'score', 'desc') }}">Order Z-A</a></small></th>
+            <th>Difficulty <small><a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'difficulty', 'asc') }}">Order A-Z</a> | <a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'difficulty', 'desc') }}">Order Z-A</a></small></th>
         </tr>
         </thead>
         {% for row in scores %}
