@@ -27,7 +27,7 @@ class AddScoreController extends AbstractController
             $entityManager->persist($score);
             $entityManager->flush();
 
-            return $this->redirectToRoute('view_scores');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('add-score/index.html.twig', [
