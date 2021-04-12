@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="jumbotron alert-danger text-center">
+    <h2 class="display-4">Are you sure?</h2>
+    <form method="post">
+        <input type="hidden" name="_referrer" value="{{ referrer }}"/>
+        <input type="hidden" name="token" value="{{ csrf_token('delete-score') }}"/>
+        <input type="submit" class="btn btn-primary" value="Yes, please!" />
+    </form>
+</div>
+{% endblock %}

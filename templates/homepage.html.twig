@@ -35,6 +35,9 @@
             <th>Username <small><a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'username', 'asc') }}">Order A-Z</a> | <a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'username', 'desc') }}">Order Z-A</a></small></th>
             <th>Score <small><a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'score', 'asc') }}">Order A-Z</a> | <a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'score', 'desc') }}">Order Z-A</a></small></th>
             <th>Difficulty <small><a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'difficulty', 'asc') }}">Order A-Z</a> | <a href="{{ path('homepage') }}?{{ app_order_query_sting(filter, 'difficulty', 'desc') }}">Order Z-A</a></small></th>
+            {% if is_granted('ROLE_ADMIN') %}
+            <th>Action</th>
+            {% endif %}
         </tr>
         </thead>
         {% for row in scores %}
@@ -42,6 +45,9 @@
                 <td>{{ row.user.username }}</td>
                 <td>{{ row.score }}</td>
                 <td>{{ row.difficulty.value }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td><a href="{{ path('delete_score', {id: row.id }) }}?_referrer={{ app.request.requestUri|url_encode }}">Delete</a></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
