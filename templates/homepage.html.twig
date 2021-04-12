@@ -40,6 +40,8 @@
             {% endif %}
         </tr>
         </thead>
+        <tbody>
+        {% if scores|length %}
         {% for row in scores %}
             <tr>
                 <td>{{ row.user.username }}</td>
@@ -50,6 +52,13 @@
                 {% endif %}
             </tr>
         {% endfor %}
+        {% else %}
+            <tr><td colspan="{% if is_granted('ROLE_ADMIN') %}4{% else %}3{% endif %}" class="text-center">No scores available. Please come back or <a href="{{ path('add_score') }}">add your own</a></td></tr>
+        {% endif %}
+        </tbody>
+        <tfoot>
+        <tr><td colspan="{% if is_granted('ROLE_ADMIN') %}4{% else %}3{% endif %}" class="text-right"><a href="{{ path('add_score') }}" class="btn btn-success">Add Your Score</a></td> </tr>
+        </tfoot>
     </table>
 {% endblock %}
 
