@@ -16,16 +16,6 @@
                 </label>
                 &nbsp;&nbsp;- AND -&nbsp;&nbsp;
                 <label>
-                    Score:
-                    <select name="score">
-                        <option value="">-- Please Select --</option>
-                        {% for score in scores|app_filter('score') %}
-                            <option value="{{ score }}"{% if filter.score is same as(score) %} selected="selected"{% endif %}>{{ score }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-                &nbsp;&nbsp;- AND -&nbsp;&nbsp;
-                <label>
                     Difficulty:
                     <select name="difficulty">
                         <option value="">-- Please Select --</option>

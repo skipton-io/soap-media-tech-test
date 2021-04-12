@@ -36,10 +36,6 @@ class AppExtension extends AbstractExtension
                     $return[$row->getUser()->getId()] = $row->getUser()->getUsername();
                     break;
 
-                case 'score':
-                    $return[] = $row->getScore();
-                    break;
-
                 case 'difficulty':
                     $return[$row->getDifficulty()->getId()] = $row->getDifficulty()->getValue();
                     break;

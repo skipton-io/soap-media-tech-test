@@ -45,7 +45,6 @@ class ViewScoresController extends AbstractController
             'scores' => $scores,
             'filter' => [
                 'username' => $filteredRequestUsername,
-                'score' => $filteredRequestScore,
                 'difficulty' => $filteredRequestDifficulty
             ],
             'order' => [
