@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ScoresRepositoryInterface;
+use App\Service\FilterRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,14 +23,23 @@ class ViewScoresController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $filteredRequestUsername = filter_var($request->query->get('filter_username'), FILTER_VALIDATE_INT);
-        $filteredRequestScore = filter_var($request->query->get('filter_score'), FILTER_VALIDATE_INT);
-        $filteredRequestDifficulty = filter_var($request->query->get('filter_difficulty'), FILTER_VALIDATE_INT);
+        $filteredRequestUsername = FilterRequest::toInt($request->query->get('username'));
+        $filteredRequestScore = FilterRequest::toInt($request->query->get('score'));
+        $filteredRequestDifficulty = FilterRequest::toInt($request->query->get('difficulty'));
+
+        $filteredRequestOrderElement = FilterRequest::inArray($request->query->get('order'), [
+            'user', 'score', 'difficulty'
+        ]);
+        $filteredRequestOrderDirection = FilterRequest::inArray($request->query->get('dir'), [
+            'asc', 'desc'
+        ]);
 
         $scores = $this->scoresRepository->findByFilter(
-            is_bool($filteredRequestUsername) ? null : $filteredRequestUsername,
-            is_bool($filteredRequestScore) ? null : $filteredRequestScore,
-            is_bool($filteredRequestDifficulty) ? null : $filteredRequestDifficulty
+            $filteredRequestUsername,
+            $filteredRequestScore,
+            $filteredRequestDifficulty,
+            $filteredRequestOrderElement,
+            $filteredRequestOrderDirection
         );
         return $this->render('homepage.html.twig', [
             'scores' => $scores,
@@ -37,6 +47,10 @@ class ViewScoresController extends AbstractController
                 'username' => $filteredRequestUsername,
                 'score' => $filteredRequestScore,
                 'difficulty' => $filteredRequestDifficulty
+            ],
+            'order' => [
+                'order' => $filteredRequestOrderElement,
+                'direction' => $filteredRequestOrderDirection
             ]
         ]);
     }

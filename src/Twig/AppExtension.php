@@ -4,6 +4,7 @@ namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
@@ -11,6 +12,13 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('app_filter', [$this, 'filter']),
+        ];
+    }
+
+    public function getFunctions()
+    {
+        return [
+            new TwigFunction('app_order_query_sting', [$this, 'order'])
         ];
     }
 
@@ -42,5 +50,10 @@ class AppExtension extends AbstractExtension
         asort($return);
 
         return $return;
+    }
+
+    public function order(array $requestArray, string $orderKey, string $orderDirection): string
+    {
+        return http_build_query($requestArray + ['order' => $orderKey, 'dir' => $orderDirection]);
     }
 }

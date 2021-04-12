@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Scores;
+use App\Service\FilterRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,7 +21,7 @@ class ScoresRepository extends ServiceEntityRepository implements ScoresReposito
         parent::__construct($registry, Scores::class);
     }
 
-    public function findByFilter(?int $user, ?int $score, ?string $difficulty)
+    public function findByFilter(?int $user, ?int $score, ?string $difficulty, ?string $orderKey = null, ?string $orderDirection = null)
     {
         $qb = $this->createQueryBuilder('s');
         if (!is_null($user)) {
@@ -37,6 +38,14 @@ class ScoresRepository extends ServiceEntityRepository implements ScoresReposito
             $qb->andWhere('s.difficulty = :difficulty')
                 ->setParameter('difficulty', $difficulty, Types::INTEGER);
         }
+
+        if (!is_null($orderKey)) {
+            if (is_null($orderDirection) || !FilterRequest::inArray($orderDirection, ['asc', 'desc'])) {
+                $orderDirection = 'asc';
+            }
+            $qb->orderBy('s.'. $orderKey, $orderDirection);
+        }
+
 
         return $qb->getQuery()
             ->getResult();
