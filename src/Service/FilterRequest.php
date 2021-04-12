@@ -23,7 +23,7 @@ class FilterRequest
             return null;
         }
 
-        if ($array_key = array_search($needle, $haystack, true) === false) {
+        if (($array_key = array_search($needle, $haystack, false)) === false) {
             return null;
         }
 
